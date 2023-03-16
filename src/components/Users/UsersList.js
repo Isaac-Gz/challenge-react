@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { getUsers } from "../../api/users";
+import { getUsers, deleteUser } from "../../api/users";
 
 const UsersList = () => {
   const [users, setUsers] = useState(null);
@@ -13,15 +13,17 @@ const UsersList = () => {
   const getData = async () => {
     const { data } = await getUsers();
     setUsers(data);
-  }
+  };
 
-  const deleteUser = (id) => {
-    return 'asdf';
-  }
+  const removeUser = async (id) => {
+    const result = await deleteUser(id);
+    console.log(result);
+    navigate('/home');
+  };
 
   const updateUser = (id) => {
-
-  }
+    navigate('/user/update?id=' + id);
+  };
 
   return (
     <div className="container">
@@ -31,7 +33,7 @@ const UsersList = () => {
         </div>
         <div className="card-body">
           <div className="divbtn">
-            <Link to="/user/create" className="btn btn-success">
+            <Link to="/user/create" className="btn btn-info">
               Add New (+)
             </Link>
           </div>
@@ -61,13 +63,13 @@ const UsersList = () => {
                     <td>{user.cv}</td>
                     <td>
                       <button
-                        onClick={updateUser(user.id)}
-                        className="btn btn-success"
+                        onClick={() => updateUser(user.id)}
+                        className="btn btn-primary"
                       >
                         Edit
                       </button>
                       <button
-                        onClick={deleteUser(user.id)}
+                        onClick={() => removeUser(user.id)}
                         className="btn btn-danger"
                       >
                         Remove

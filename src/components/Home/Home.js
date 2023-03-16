@@ -9,7 +9,7 @@ const Home = () => {
 
   useEffect(() => {
     getUser();
-  }, []);
+  });
 
   const [name, setName] = useState();
   const [type_id, setType] = useState();

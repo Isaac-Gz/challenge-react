@@ -5,15 +5,34 @@ const token = `Bearer ${getLocalStorageItem("accessToken")}`;
 axiosInstance.defaults.headers.common["Authorization"] = token;
 
 const getUsers = async () => {
-  return axiosInstance.get('/v1/users');
-}
+  return axiosInstance.get("/v1/users");
+};
+
+const getUserById = async (id) => {
+  return axiosInstance.get(`/v1/users/${id}`);
+};
 
 const getUserByMail = async (mail) => {
   return axiosInstance.post(`/v2/users/mail`, { mail });
 };
 
 const createUser = async (user) => {
-  return axiosInstance.post('/v1/usesr', user);
-}
+  return axiosInstance.post("/v1/users", user);
+};
 
-export {getUsers ,getUserByMail, createUser};
+const updateUser = async (id, user) => {
+  return axiosInstance.patch(`/v1/users/${id}`, user);
+};
+
+const deleteUser = async (id) => {
+  return axiosInstance.delete(`/v1/users/${id}`);
+};
+
+export {
+  getUsers,
+  getUserByMail,
+  createUser,
+  getUserById,
+  updateUser,
+  deleteUser,
+};

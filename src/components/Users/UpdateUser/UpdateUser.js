@@ -1,14 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./CreateUser.css";
+import { getUserById, updateUser } from "../../../api/users";
 
-const CreateUser = () => {
+const UpdateUser = () => {
   const navigate = useNavigate();
-  const checarDatos = (e) => {
-    e.preventDedault();
+  const queryParameters = new URLSearchParams(window.location.search);
+  const id = queryParameters.get('id');
+
+  const [type_user, setType_user] = useState();
+  const [name, setName] = useState();
+  const [mail, setMail] = useState();
+  const [password, setPassword] = useState();
+  const [english_level, setEnglish_level] = useState();
+  const [tec_knowledge, setTec_knowledge] = useState();
+  const [cv, setCv] = useState();
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = async () => {
+    const { data } = await getUserById(id);
+    setType_user(data.type_id);
+    setName(data.name);
+    setMail(data.mail);
+    setPassword(data.password);
+    setEnglish_level(data.english_level);
+    setTec_knowledge(data.tec_knowledge);
+    setCv(data.cv);
+  }
+
+  const capturarDatos = async (e) => {
+    e.preventDefault();
     let target = e.target;
     const user = {
-      type_id: target.type_id.value,
+      type_id: parseInt(target.type_user.value),
       name: target.name.value,
       mail: target.mail.value,
       password: target.password.value,
@@ -16,21 +42,29 @@ const CreateUser = () => {
       tec_knowledge: target.tec_knowledge.value,
       cv: target.cv.value,
     };
-    console.log(user);
+    try {
+      await updateUser(id, user);
+      navigate('/user');
+    } catch (error) {
+        console.log(error);
+    }
   };
 
+  
   return (
-    <>
-      <div className="divCon">
-        <div className="offset-lg-3 col-lg-6">
-          <h4>Create User</h4>
-          <form className="row g-3" onSubmit={checarDatos}>
+    <div class="container">
+      <div class="row">
+        <div class="offset-lg-3 col-lg-6">
+          <h2 class="text-center text-dark mt-5">Update User</h2>
+          <form class="row g-3" onSubmit={capturarDatos}>
             <div className="col-md-6">
               <label for="inputEmail4" className="form-label">
                 User type
               </label>
               <input
-                type="text"
+                value={type_user}
+                onChange={(e) => setType_user(e.target.value)}
+                type="number"
                 className="form-control"
                 id="inputEmail4"
                 name="type_user"
@@ -41,6 +75,8 @@ const CreateUser = () => {
                 Name
               </label>
               <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputName"
@@ -52,6 +88,8 @@ const CreateUser = () => {
                 Mail
               </label>
               <input
+                value={mail}
+                onChange={e => setMail(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputMail"
@@ -63,6 +101,8 @@ const CreateUser = () => {
                 Password
               </label>
               <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 className="form-control"
                 id="inputPassword"
@@ -74,6 +114,8 @@ const CreateUser = () => {
                 English Level
               </label>
               <input
+                value={english_level}
+                onChange={(e) => setEnglish_level(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputEnglish"
@@ -85,6 +127,8 @@ const CreateUser = () => {
                 Tec Knowledge
               </label>
               <input
+                value={tec_knowledge}
+                onChange={(e) => setTec_knowledge(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputTec"
@@ -96,6 +140,8 @@ const CreateUser = () => {
                 CV
               </label>
               <input
+                value={cv}
+                onChange={(e) => setCv(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputCv"
@@ -110,8 +156,8 @@ const CreateUser = () => {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default CreateUser;
+export default UpdateUser;

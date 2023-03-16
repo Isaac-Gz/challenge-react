@@ -2,5 +2,6 @@ export const ROUTES = {
     LOGIN: '/login',
     HOME: '/home',
     USER_LIST: '/user',
-    CREATE_USER: '/user/create'
+    CREATE_USER: '/user/create',
+    UPDATE_USER: '/user/update'
 };
