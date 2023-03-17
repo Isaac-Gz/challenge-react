@@ -7,6 +7,9 @@ import UpdateAccount from "../Accounts/UpdateAccount/UpdateAccount";
 import Home from "../Home/Home";
 import Login from "../Login/Login";
 import Navbar from "../Navbar/Navbar";
+import NewTeam from "../Teams/NewTeam/NewTeam";
+import TeamsList from "../Teams/TeamsList";
+import UpdateTeam from "../Teams/UpdateTeam/UpdateTeam";
 import NewUser from "../Users/NewUser/NewUser";
 import UpdateUser from "../Users/UpdateUser/UpdateUser";
 import UsersList from "../Users/UsersList";
@@ -24,6 +27,9 @@ const Layout = () => {
           <Route path={ROUTES.ACCOUNT_LIST} element={<AccountsList />} />
           <Route path={ROUTES.CREATE_ACCOUNT} element={<NewAccount />} />
           <Route path={ROUTES.UPDATE_ACCOUNT} element={<UpdateAccount />} />
+          <Route path={ROUTES.TEAM_LIST} element={<TeamsList />} />
+          <Route path={ROUTES.CREATE_TEAM} element={<NewTeam />} />
+          <Route path={ROUTES.UPDATE_TEAM} element={<UpdateTeam />} />
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />} />
       </Routes>

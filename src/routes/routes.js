@@ -7,5 +7,8 @@ export const ROUTES = {
     NAVBAR: '/nav',
     ACCOUNT_LIST: '/account',
     CREATE_ACCOUNT: '/account/create',
-    UPDATE_ACCOUNT: '/account/update'
+    UPDATE_ACCOUNT: '/account/update',
+    TEAM_LIST: '/team',
+    CREATE_TEAM: '/team/create',
+    UPDATE_TEAM: '/team/update'
 };
