@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { getUsers, deleteUser } from "../../api/users";
+import { getAccounts, deleteAccount } from "../../api/accounts";
 import { ToastContainer } from "react-toastify";
 import { validData } from "../../helpers/alerts.helpers";
 
-const UsersList = () => {
-
+const AccountsList = () => {
   const queryParameters = new URLSearchParams(window.location.search);
   const status = queryParameters.get("status");
 
-  const [users, setUsers] = useState(null);
+  const [account, setAccount] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,31 +17,31 @@ const UsersList = () => {
   }, []);
 
   const getData = async () => {
-    const { data } = await getUsers();
-    setUsers(data);
+    const { data } = await getAccounts();
+    setAccount(data);
   };
 
   const toastMessage = () => {
-    if(status){
-      if(status === "updated"){
-        validData('Usuario modificado correctamente');
-      } else if(status === "created"){
-        validData("Usuario creado correctamente");
-      } else if(status === "deleted"){
-        validData("Usuario eliminado");
+    if (status) {
+      if (status === "updated") {
+        validData("Cuenta modificada correctamente");
+      } else if (status === "created") {
+        validData("Cuenta creada correctamente");
+      } else if (status === "deleted") {
+        validData("Cuenta eliminada");
       }
     }
-  }
+  };
 
   const removeUser = async (id) => {
-    const result = await deleteUser(id);
+    const result = await deleteAccount(id);
     console.log(result);
-    navigate('/user?status=deleted');
+    navigate("/account?status=deleted");
     window.location.reload();
   };
 
   const updateUser = (id) => {
-    navigate('/user/update?id=' + id);
+    navigate("/account/update?id=" + id);
   };
 
   return (
@@ -55,11 +54,11 @@ const UsersList = () => {
       />
       <div className="card">
         <div className="card-title">
-          <h2>Users</h2>
+          <h2>Accounts</h2>
         </div>
         <div className="card-body">
           <div className="divbtn">
-            <Link to="/user/create" className="btn btn-info">
+            <Link to="/account/create" className="btn btn-info">
               Add New (+)
             </Link>
           </div>
@@ -67,35 +66,29 @@ const UsersList = () => {
             <thead className="bg-dark text-white">
               <tr>
                 <td>ID</td>
-                <td>type_id</td>
-                <td>name</td>
-                <td>mail</td>
-                <td>english_level</td>
-                <td>tec_knowledge</td>
-                <td>CV</td>
+                <td>Name</td>
+                <td>Client Name</td>
+                <td>Person In Charge</td>
                 <td>Action</td>
               </tr>
             </thead>
             <tbody>
-              {users &&
-                users.map((user) => (
-                  <tr key={user.id}>
-                    <td>{user.id}</td>
-                    <td>{user.type_id}</td>
-                    <td>{user.name}</td>
-                    <td>{user.mail}</td>
-                    <td>{user.english_level}</td>
-                    <td>{user.tec_knowledge}</td>
-                    <td>{user.cv}</td>
+              {account &&
+                account.map((account) => (
+                  <tr key={account.id}>
+                    <td>{account.id}</td>
+                    <td>{account.account_name}</td>
+                    <td>{account.client_name}</td>
+                    <td>{account.in_charge_name}</td>
                     <td>
                       <button
-                        onClick={() => updateUser(user.id)}
+                        onClick={() => updateUser(account.id)}
                         className="btn btn-primary"
                       >
                         Edit
                       </button>
                       <button
-                        onClick={() => removeUser(user.id)}
+                        onClick={() => removeUser(account.id)}
                         className="btn btn-danger"
                       >
                         Remove
@@ -111,4 +104,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default AccountsList;

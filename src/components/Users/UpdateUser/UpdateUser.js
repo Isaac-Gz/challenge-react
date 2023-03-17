@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserById, updateUser } from "../../../api/users";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { invalidData } from "../../../helpers/alerts.helpers";
 
 const UpdateUser = () => {
   const navigate = useNavigate();
   const queryParameters = new URLSearchParams(window.location.search);
-  const id = queryParameters.get('id');
+  const id = queryParameters.get("id");
 
   const [type_user, setType_user] = useState();
   const [name, setName] = useState();
@@ -28,7 +31,7 @@ const UpdateUser = () => {
     setEnglish_level(data.english_level);
     setTec_knowledge(data.tec_knowledge);
     setCv(data.cv);
-  }
+  };
 
   const capturarDatos = async (e) => {
     e.preventDefault();
@@ -44,15 +47,21 @@ const UpdateUser = () => {
     };
     try {
       await updateUser(id, user);
-      navigate('/user');
+      navigate("/user?status=updated");
     } catch (error) {
-        console.log(error);
+      invalidData("Error al ingresar los datos");
+      console.log(error);
     }
   };
 
-  
   return (
     <div class="container">
+      <ToastContainer
+        closeButton={true}
+        position="bottom-right"
+        autoClose="3000"
+        hideProgressBar="true"
+      />
       <div class="row">
         <div class="offset-lg-3 col-lg-6">
           <h2 class="text-center text-dark mt-5">Update User</h2>
@@ -89,7 +98,7 @@ const UpdateUser = () => {
               </label>
               <input
                 value={mail}
-                onChange={e => setMail(e.target.value)}
+                onChange={(e) => setMail(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputMail"

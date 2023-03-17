@@ -1,7 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { createUser } from "../../../api/users";
+import { invalidData } from "../../../helpers/alerts.helpers";
+import { ToastContainer } from "react-toastify";
 
 const NewUser = () => {
+  const navigate = useNavigate();
   const capturarDatos = async (e) => {
     e.preventDefault();
     let target = e.target;
@@ -15,15 +19,22 @@ const NewUser = () => {
       cv: target.cv.value,
     };
     try {
-      const result = await createUser(user);
-      console.log(result);
+      await createUser(user);
+      navigate("/user?status=created");
     } catch (error) {
-        console.log(error);
+      invalidData("Error al ingresar los datos");
+      console.log(error);
     }
   };
 
   return (
     <div class="container">
+      <ToastContainer
+        closeButton={true}
+        position="bottom-right"
+        autoClose="3000"
+        hideProgressBar="true"
+      />
       <div class="row">
         <div class="offset-lg-3 col-lg-6">
           <h2 class="text-center text-dark mt-5">Create User</h2>
