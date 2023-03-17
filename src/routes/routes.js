@@ -10,5 +10,7 @@ export const ROUTES = {
     UPDATE_ACCOUNT: '/account/update',
     TEAM_LIST: '/team',
     CREATE_TEAM: '/team/create',
-    UPDATE_TEAM: '/team/update'
+    UPDATE_TEAM: '/team/update',
+    RECORD_LIST: '/record',
+    CREATE_RECORD: '/record/create'
 };

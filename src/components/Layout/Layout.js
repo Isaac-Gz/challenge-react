@@ -7,6 +7,8 @@ import UpdateAccount from "../Accounts/UpdateAccount/UpdateAccount";
 import Home from "../Home/Home";
 import Login from "../Login/Login";
 import Navbar from "../Navbar/Navbar";
+import NewRecord from "../Records/NewRecord/NewRecord";
+import RecordsList from "../Records/RecordsList";
 import NewTeam from "../Teams/NewTeam/NewTeam";
 import TeamsList from "../Teams/TeamsList";
 import UpdateTeam from "../Teams/UpdateTeam/UpdateTeam";
@@ -30,6 +32,8 @@ const Layout = () => {
           <Route path={ROUTES.TEAM_LIST} element={<TeamsList />} />
           <Route path={ROUTES.CREATE_TEAM} element={<NewTeam />} />
           <Route path={ROUTES.UPDATE_TEAM} element={<UpdateTeam />} />
+          <Route path={ROUTES.RECORD_LIST} element={<RecordsList />} />
+          <Route path={ROUTES.CREATE_RECORD} element={<NewRecord />} />
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />} />
       </Routes>

@@ -29,6 +29,10 @@ const deleteUser = async (id) => {
   return axiosInstance.delete(`/v1/users/${id}`);
 };
 
+const getUserByName = async (name) => {
+  return axiosInstance.get(`/v2/users/name/${name}`);
+}
+
 export {
   getUsers,
   getUserByMail,
@@ -36,4 +40,5 @@ export {
   getUserById,
   updateUser,
   deleteUser,
+  getUserByName,
 };
