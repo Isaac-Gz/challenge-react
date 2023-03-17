@@ -11,6 +11,7 @@ const UpdateUser = () => {
   const id = queryParameters.get("id");
 
   const [type_user, setType_user] = useState();
+  const [team_id, setTeam_id] = useState();
   const [name, setName] = useState();
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
@@ -25,6 +26,7 @@ const UpdateUser = () => {
   const getUser = async () => {
     const { data } = await getUserById(id);
     setType_user(data.type_id);
+    setTeam_id(data.team_id);
     setName(data.name);
     setMail(data.mail);
     setPassword(data.password);
@@ -38,6 +40,7 @@ const UpdateUser = () => {
     let target = e.target;
     const user = {
       type_id: parseInt(target.type_user.value),
+      team_id: parseInt(target.team_id.value),
       name: target.name.value,
       mail: target.mail.value,
       password: target.password.value,
@@ -80,6 +83,19 @@ const UpdateUser = () => {
               />
             </div>
             <div className="col-md-6">
+              <label for="inputEmail44" className="form-label">
+                Team ID
+              </label>
+              <input
+                value={team_id}
+                onChange={(e) => setTeam_id(e.target.value)}
+                type="number"
+                className="form-control"
+                id="inputEmail44"
+                name="team_id"
+              />
+            </div>
+            <div className="col-md-12">
               <label for="inputName" className="form-label">
                 Name
               </label>

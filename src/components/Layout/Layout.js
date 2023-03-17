@@ -7,6 +7,7 @@ import UpdateAccount from "../Accounts/UpdateAccount/UpdateAccount";
 import Home from "../Home/Home";
 import Login from "../Login/Login";
 import Navbar from "../Navbar/Navbar";
+import NormalUser from "../NormalUser/NormalUser";
 import NewRecord from "../Records/NewRecord/NewRecord";
 import RecordsList from "../Records/RecordsList";
 import NewTeam from "../Teams/NewTeam/NewTeam";
@@ -36,6 +37,7 @@ const Layout = () => {
           <Route path={ROUTES.CREATE_RECORD} element={<NewRecord />} />
         </Route>
         <Route path={ROUTES.LOGIN} element={<Login />} />
+        <Route path={ROUTES.UPDATE} element={<NormalUser />} />
       </Routes>
     </BrowserRouter>
   );

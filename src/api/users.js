@@ -33,6 +33,14 @@ const getUserByName = async (name) => {
   return axiosInstance.get(`/v2/users/name/${name}`);
 }
 
+const updateUserTeam = async (id, team) => {
+  return axiosInstance.patch(`/v2/users/team_id/${id}/${team}`);
+}
+
+const updateNormalUser = async (id, user) => {
+  return axiosInstance.patch(`/v2/users/normal/${id}`, user);
+}
+
 export {
   getUsers,
   getUserByMail,
@@ -41,4 +49,6 @@ export {
   updateUser,
   deleteUser,
   getUserByName,
+  updateUserTeam,
+  updateNormalUser,
 };

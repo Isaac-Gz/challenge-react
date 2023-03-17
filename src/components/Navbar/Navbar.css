@@ -10,6 +10,10 @@
   height: 100%;
 }
 
+.but1{
+  all: unset;
+}
+
 .navbar {
   height: 60px;
   background-color: #fef7e5;

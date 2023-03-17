@@ -4,6 +4,8 @@ import "./Login.css";
 import * as yup from "yup";
 import { login } from "../../api/login";
 import { setLocalStorageItem } from "../../helpers/localStorage.helpers";
+import { ToastContainer } from "react-toastify";
+import { invalidData } from "../../helpers/alerts.helpers";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -28,7 +30,9 @@ const Login = () => {
         } = await login(datos.mail, datos.password);
         setLocalStorageItem("accessToken", accessToken);
         navigate("/home");
-      } catch (error) {}
+      } catch (error) {
+        invalidData("Credenciales invalidas");
+      }
     } else {
       console.log("invalido");
     }
@@ -37,6 +41,12 @@ const Login = () => {
   return (
     <>
       <div class="container">
+      <ToastContainer
+        closeButton={true}
+        position="bottom-right"
+        autoClose="3000"
+        hideProgressBar="true"
+      />
         <div class="row">
           <div class="col-md-6 offset-md-3">
             <h2 class="text-center text-dark mt-5">Login</h2>

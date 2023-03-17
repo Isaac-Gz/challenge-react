@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { getAccounts, deleteAccount } from "../../api/accounts";
 import { ToastContainer } from "react-toastify";
 import { validData } from "../../helpers/alerts.helpers";
+import { getLocalStorageItem } from "../../helpers/localStorage.helpers";
 
 const AccountsList = () => {
   const queryParameters = new URLSearchParams(window.location.search);
@@ -14,6 +15,17 @@ const AccountsList = () => {
   useEffect(() => {
     getData();
     toastMessage();
+    // const token = getLocalStorageItem("accessToken");
+    // if (!token) {
+    //   navigate("/login");
+    // }
+    // const type_id = getLocalStorageItem("type");
+    // const id = getLocalStorageItem("id");
+    // console.log(type_id);
+    // if(type_id === 3){
+    //   console.log("asdasd");
+    //   navigate(`/update?id=${id}`);
+    // }
   }, []);
 
   const getData = async () => {

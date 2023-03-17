@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { createRecord } from "../../../api/records";
 import { getTeamById } from "../../../api/teams";
-import { getUserById } from "../../../api/users";
+import { getUserById, updateUserTeam } from "../../../api/users";
 import { invalidData } from "../../../helpers/alerts.helpers";
 import { ToastContainer } from "react-toastify";
 
@@ -33,6 +33,7 @@ const NewRecord = () => {
     }
 
     try {
+      await updateUserTeam(record.user_id, record.new_team_id);
       await createRecord(record);
       navigate("/record?status=created");
     } catch (error) {

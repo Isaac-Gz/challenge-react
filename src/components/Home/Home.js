@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getLocalStorageItem } from "../../helpers/localStorage.helpers";
+import { getLocalStorageItem, setLocalStorageItem } from "../../helpers/localStorage.helpers";
 import { useNavigate } from "react-router-dom";
-import { getUserByMail } from "../../api/users";
-import jwt_decode from "jwt-decode";
+import { getType } from "../../helpers/getUserType";
+import './Home.css'
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,17 +19,27 @@ const Home = () => {
     if (!token) {
       navigate("/login");
     }
-    const { mail } = jwt_decode(token);
-    const user = await getUserByMail(mail);
-    const { data: { name, type_id } } = user;
-    setName(name);
-    setType(type_id);
+    const data = await getType();
+    setName(data.name);
+    setType(data.type_id);
+    setLocalStorageItem("type", type_id);
+    setLocalStorageItem("id", data.id);
+    if(type_id === 3){
+      navigate(`/update?id=${data.id}`);
+    }
   };
 
   return (
-    <div>
-      <h1>Name: {name}</h1>
-      <h1>User_Type: {type_id}</h1>
+    <div className="container divHome">
+      <div className="card">
+        <div className="card-title">
+          <div className="asd">
+            <h2>Mind Teams Challenge</h2>
+            <h4>Welcome: {name}</h4>
+          </div>
+        </div>
+        <div className="card-body"></div>
+      </div>
     </div>
   );
 };

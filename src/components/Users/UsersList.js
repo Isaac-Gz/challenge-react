@@ -68,6 +68,7 @@ const UsersList = () => {
               <tr>
                 <td>ID</td>
                 <td>type_id</td>
+                <td>team_id</td>
                 <td>name</td>
                 <td>mail</td>
                 <td>english_level</td>
@@ -82,6 +83,7 @@ const UsersList = () => {
                   <tr key={user.id}>
                     <td>{user.id}</td>
                     <td>{user.type_id}</td>
+                    <td>{user.team_id}</td>
                     <td>{user.name}</td>
                     <td>{user.mail}</td>
                     <td>{user.english_level}</td>

@@ -1,33 +1,76 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUser } from "../../../api/users";
-import { invalidData } from "../../../helpers/alerts.helpers";
+import { getUserById, updateNormalUser } from "../../api/users";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { invalidData, validData } from "../../helpers/alerts.helpers";
+import { removeLocalStorageItem } from "../../helpers/localStorage.helpers";
 
-const NewUser = () => {
+const NormalUser = () => {
   const navigate = useNavigate();
+  const queryParameters = new URLSearchParams(window.location.search);
+  const id = queryParameters.get("id");
+  const status = queryParameters.get("status");
+
+  const [type_user, setType_user] = useState();
+  const [team_id, setTeam_id] = useState();
+  const [name, setName] = useState();
+  const [mail, setMail] = useState();
+  const [english_level, setEnglish_level] = useState();
+  const [tec_knowledge, setTec_knowledge] = useState();
+  const [cv, setCv] = useState();
+
+  useEffect(() => {
+    getUser();
+    toastMessage();
+  }, []);
+
+  const getUser = async () => {
+    const { data } = await getUserById(id);
+    setType_user(data.type_id);
+    setTeam_id(data.team_id);
+    setName(data.name);
+    setMail(data.mail);
+    setEnglish_level(data.english_level);
+    setTec_knowledge(data.tec_knowledge);
+    setCv(data.cv);
+  };
+
+  const toastMessage = () => {
+    if (status) {
+      if (status === "updated") {
+        validData("Usuario modificado correctamente");
+      }
+    }
+  };
+
   const capturarDatos = async (e) => {
     e.preventDefault();
     let target = e.target;
     const user = {
-      type_id: parseInt(target.type_user.value),
-      team_id: parseInt(target.team_id.value),
+      type_id: parseInt(type_user),
+      team_id: parseInt(team_id),
       name: target.name.value,
       mail: target.mail.value,
-      password: target.password.value,
       english_level: target.english_level.value,
       tec_knowledge: target.tec_knowledge.value,
       cv: target.cv.value,
     };
     try {
-      await createUser(user);
-      navigate("/user?status=created");
+      await updateNormalUser(id, user);
+      navigate(`/update?id=${id}&status=updated`);
     } catch (error) {
       invalidData("Error al ingresar los datos");
       console.log(error);
     }
   };
 
+  const exit = () => {
+    removeLocalStorageItem("accessToken");
+    removeLocalStorageItem("type");
+    removeLocalStorageItem("id");
+    navigate('/login');
+  }
   return (
     <div class="container">
       <ToastContainer
@@ -38,35 +81,15 @@ const NewUser = () => {
       />
       <div class="row">
         <div class="offset-lg-3 col-lg-6">
-          <h2 class="text-center text-dark mt-5">Create User</h2>
+          <h2 class="text-center text-dark mt-5">User Information</h2>
           <form class="row g-3" onSubmit={capturarDatos}>
-            <div className="col-md-6">
-              <label for="inputEmail4" className="form-label">
-                User type
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="inputEmail4"
-                name="type_user"
-              />
-            </div>
-            <div className="col-md-6">
-              <label for="inputEmail44" className="form-label">
-                Team ID
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="inputEmail44"
-                name="team_id"
-              />
-            </div>
             <div className="col-md-12">
               <label for="inputName" className="form-label">
                 Name
               </label>
               <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputName"
@@ -78,21 +101,13 @@ const NewUser = () => {
                 Mail
               </label>
               <input
+                disabled
+                value={mail}
+                onChange={(e) => setMail(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputMail"
                 name="mail"
-              />
-            </div>
-            <div className="col-12">
-              <label for="inputPassword" className="form-label">
-                Password
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                id="inputPassword"
-                name="password"
               />
             </div>
             <div className="col-md-6">
@@ -100,6 +115,8 @@ const NewUser = () => {
                 English Level
               </label>
               <input
+                value={english_level}
+                onChange={(e) => setEnglish_level(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputEnglish"
@@ -111,6 +128,8 @@ const NewUser = () => {
                 Tec Knowledge
               </label>
               <input
+                value={tec_knowledge}
+                onChange={(e) => setTec_knowledge(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputTec"
@@ -122,6 +141,8 @@ const NewUser = () => {
                 CV
               </label>
               <input
+                value={cv}
+                onChange={(e) => setCv(e.target.value)}
                 type="text"
                 className="form-control"
                 id="inputCv"
@@ -130,7 +151,10 @@ const NewUser = () => {
             </div>
             <div className="col-12">
               <button type="submit" className="btn btn-primary">
-                Save
+                Update
+              </button>
+              <button onClick={exit} className="btn btn-danger">
+                Exit
               </button>
             </div>
           </form>
@@ -140,4 +164,4 @@ const NewUser = () => {
   );
 };
 
-export default NewUser;
+export default NormalUser;
