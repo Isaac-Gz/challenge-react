@@ -38,6 +38,7 @@ const NormalUser = () => {
 
   const toastMessage = () => {
     if (status) {
+      console.log(status);
       if (status === "updated") {
         validData("Usuario modificado correctamente");
       }
@@ -59,6 +60,7 @@ const NormalUser = () => {
     try {
       await updateNormalUser(id, user);
       navigate(`/update?id=${id}&status=updated`);
+      window.location.reload();
     } catch (error) {
       invalidData("Error al ingresar los datos");
       console.log(error);
@@ -69,8 +71,8 @@ const NormalUser = () => {
     removeLocalStorageItem("accessToken");
     removeLocalStorageItem("type");
     removeLocalStorageItem("id");
-    navigate('/login');
-  }
+    navigate("/login");
+  };
   return (
     <div class="container">
       <ToastContainer
